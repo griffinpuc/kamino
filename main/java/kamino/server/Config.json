@@ -1,0 +1,13 @@
+{
+  "databaseConnection":
+  {
+    "dbUser" : "",
+    "dbPassword" : "",
+    "serverName" : ""
+  },
+
+  "serverConnection":
+  {
+    "serverPort" : ""
+  }
+}

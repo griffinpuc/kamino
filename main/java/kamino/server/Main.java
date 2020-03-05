@@ -8,8 +8,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ServerSocket server = new ServerSocket(8888);
-        Socket clientConnection = server.accept();
+        KaminoServer kaminoServer = new KaminoServer();
+        ServerSocket serverSocket = new ServerSocket(kaminoServer.serverPort);
+        Socket socket = null;
+
+        kaminoServer.loadConfig();
+
+        while (true) {
+            socket = serverSocket.accept();
+            kaminoServer.newClientConnection(socket);
+        }
 
     }
 }
