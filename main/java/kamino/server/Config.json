@@ -3,11 +3,11 @@
   {
     "dbUser" : "",
     "dbPassword" : "",
-    "serverName" : ""
+    "serverName" : "(localdb)\\MSSQLLOCALDB"
   },
 
   "serverConnection":
   {
-    "serverPort" : ""
+    "serverPort" : "5000"
   }
 }

@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /* Kamino Server */
 /* Contains all code for the kamino server to run */
@@ -22,7 +24,7 @@ public class KaminoServer {
     /* Load configuration parameters from json configuration file */
     /* ---------------------------------------------------------- */
     public void loadConfig() throws IOException {
-        JSONObject obj = new JSONObject(Files.readString(Paths.get("Config.json"), StandardCharsets.US_ASCII));
+        JSONObject obj = new JSONObject(Files.readString(Paths.get("C:\\Users\\griff\\Workspace\\Kamino\\ServerConfig.json"), StandardCharsets.US_ASCII));
 
         /* Set database connection parameters */
         this.dataSource.setUser(obj.getJSONObject("databaseConnection").getString("dbUser"));
@@ -36,7 +38,15 @@ public class KaminoServer {
     /* Create a new client connection thread evey time someone logs in */
     /* --------------------------------------------------------------- */
     public void newClientConnection(Socket socket){
-        new ClientConnection(socket).start();
+        pushNotification("JOIN", "New client joined the server");
+        new ClientConnection(socket, this.dataSource).start();
+    }
+
+    /* Push formatted notification to server console */
+    /* --------------------------------------------- */
+    public void pushNotification(String type, String message){
+        String dateTime = new SimpleDateFormat("dd-MMM-yyyy:hh:mm:ss").format(new Date());
+        System.out.println("["+dateTime+"] "+type+": "+message);
     }
 
 }

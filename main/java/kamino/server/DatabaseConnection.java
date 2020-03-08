@@ -2,7 +2,9 @@ package main.java.kamino.server;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseConnection {
 
@@ -12,8 +14,17 @@ public class DatabaseConnection {
         this.databaseContext = dataSource.getConnection();
     }
 
-    //public boolean validateUser(String username, String password){
+    public void validateUser(String username, String password){
+        try{
+            Statement stmt = this.databaseContext.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ID FROM USERS");
 
-    //}
+            rs.close();
+            stmt.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
 
 }

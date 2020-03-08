@@ -11,6 +11,8 @@ public class Main {
         kaminoClient = new KaminoClient();
         kaminoClient.loadConfig();
 
+        kaminoClient.connectClient();
+
         /*File a = new File("C:/Users/griff/OneDrive/Documents/Tangen/TangenDataPortal/databaseSlave/databaseSlave/Program.cs");
         java.awt.Desktop.getDesktop().edit(a);*/
     }
