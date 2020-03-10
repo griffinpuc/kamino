@@ -1,11 +1,13 @@
 package main.java.kamino.library;
 
-import com.mysql.cj.log.Log;
-import main.java.kamino.client.Login;
+
+import main.java.kamino.client.LoginGui;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -36,24 +38,43 @@ public class KaminoClient {
         this.serverPort = Integer.parseInt(obj.getJSONObject("connection").getString("serverPort"));
     }
 
-    public void connectClient() {
+    public void connectClient(String username, String password) {
         try {
             serverConnection = new Socket(this.serverAddress, this.serverPort);
-            DataOutputStream out = new DataOutputStream(serverConnection.getOutputStream());
-        } catch (IOException e) {
+            DataOutputStream dOut = new DataOutputStream(serverConnection.getOutputStream());
+            ObjectOutputStream oStream = new ObjectOutputStream(dOut);
+
+            oStream.writeObject(new RequestAuth(username, password));
+            oStream.flush();
+
+            DataInputStream dIn = new DataInputStream(serverConnection.getInputStream());
+            ObjectInputStream iStream = new ObjectInputStream(dIn);
+
+            System.out.println(iStream.readObject());
+            System.out.println("got here");
+
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void startGUI(){
-        Login log = new Login();
-        while(true){
-            if(log.username != null){
-                this.usernameHash = log.username;
-                this.passwordHash = log.password;
-                log.loginFrame.setVisible(false);
+        LoginGui loginGui = new LoginGui();
+        Hash hash = new Hash();
+
+        loginGui.SubmitLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if("".equals(loginGui.UnameField.getText()) || "".equals(loginGui.PassField.getPassword()) ){
+                    JOptionPane.showMessageDialog(null, "Username or password field is incorrect.");
+                }
+                else{
+                    usernameHash = hash.hashString(loginGui.UnameField.getText());
+                    passwordHash = hash.hashString(loginGui.PassField.getPassword().toString());
+                    connectClient(usernameHash, passwordHash);
+                }
             }
-        }
+        });
     }
 
 }
