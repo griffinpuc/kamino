@@ -1,4 +1,6 @@
-package main.java.kamino.server;
+package main.java.kamino.library;
+
+import main.java.kamino.library.DatabaseConnection;
 
 import javax.sql.DataSource;
 import java.io.*;

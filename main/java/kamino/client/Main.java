@@ -1,5 +1,7 @@
 package main.java.kamino.client;
 
+import main.java.kamino.library.KaminoClient;
+
 import java.io.IOException;
 
 public class Main {
@@ -9,11 +11,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         kaminoClient = new KaminoClient();
-        kaminoClient.loadConfig();
+        kaminoClient.startGUI();
+        //kaminoClient.connectClient();
 
-        kaminoClient.connectClient();
-
-        /*File a = new File("C:/Users/griff/OneDrive/Documents/Tangen/TangenDataPortal/databaseSlave/databaseSlave/Program.cs");
-        java.awt.Desktop.getDesktop().edit(a);*/
     }
 }

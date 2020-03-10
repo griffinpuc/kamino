@@ -1,4 +1,4 @@
-package main.java.kamino.server;
+package main.java.kamino.library;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.json.JSONObject;
