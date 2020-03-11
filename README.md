@@ -1,5 +1,5 @@
 # kamino
-Cloud-based markdown notes service. Create public and private notes for access from anywhere with an internet connection. Notes can be encrypted to offer an additional layer of protection.
+Cloud-synced markdown notes service. Create public and private notes for access from anywhere with an internet connection. Notes can be encrypted to offer an additional layer of protection.
 
 ## Getting Started
 Running the Kamino client <br />
