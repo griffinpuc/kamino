@@ -2,6 +2,7 @@ package main.java.kamino.library;
 
 
 import main.java.kamino.client.LoginGui;
+import main.java.kamino.client.MainGui;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -26,11 +27,12 @@ public class KaminoClient {
         loadConfig();
     }
 
-    //Load configuration settings from the config json file
+    /* Load configuration settings from the config json file */
+    /* ----------------------------------------------------- */
     private void loadConfig() {
         JSONObject obj = null;
         try {
-            obj = new JSONObject(Files.readString(Paths.get("C:\\Users\\griff\\Workspace\\Kamino\\ClientConfig.json"), StandardCharsets.US_ASCII));
+            obj = new JSONObject(Files.readString(Paths.get("C:\\Users\\griff\\Workspace\\kamino-project\\src\\main\\java\\kamino\\client\\Config.json"), StandardCharsets.US_ASCII));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,6 +40,8 @@ public class KaminoClient {
         this.serverPort = Integer.parseInt(obj.getJSONObject("connection").getString("serverPort"));
     }
 
+    /* Authenticate the client with the server */
+    /* --------------------------------------- */
     public void connectClient(String username, String password) {
         try {
             serverConnection = new Socket(this.serverAddress, this.serverPort);
@@ -58,6 +62,8 @@ public class KaminoClient {
         }
     }
 
+    /* Start the login gui and begin authentication process */
+    /* ---------------------------------------------------- */
     public void startGUI(){
         LoginGui loginGui = new LoginGui();
         Hash hash = new Hash();
@@ -75,6 +81,10 @@ public class KaminoClient {
                 }
             }
         });
+    }
+
+    public void startMainGUI(){
+        MainGui mainGui = new MainGui();
     }
 
 }

@@ -1,6 +1,5 @@
 package main.java.kamino.library;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -8,29 +7,29 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.*;
 
 /* Kamino Server */
 /* Contains all code for the kamino server to run */
 public class KaminoServer {
 
     public int serverPort;
-    private MysqlDataSource dataSource;
-
-    public KaminoServer(){
-        this.dataSource = new MysqlDataSource();
-    }
+    private String dbUser;
+    private String dbPass;
+    private String dbUrl;
 
     /* Load configuration parameters from json configuration file */
     /* ---------------------------------------------------------- */
     public void loadConfig() throws IOException {
-        JSONObject obj = new JSONObject(Files.readString(Paths.get("C:\\Users\\griff\\Workspace\\Kamino\\ServerConfig.json"), StandardCharsets.US_ASCII));
+        JSONObject obj = new JSONObject(Files.readString(Paths.get("C:\\Users\\griff\\Workspace\\kamino-project\\src\\main\\java\\kamino\\server\\Config.json"), StandardCharsets.US_ASCII));
 
         /* Set database connection parameters */
-        this.dataSource.setUser(obj.getJSONObject("databaseConnection").getString("dbUser"));
-        this.dataSource.setPassword(obj.getJSONObject("databaseConnection").getString("dbPassword"));
-        this.dataSource.setServerName(obj.getJSONObject("databaseConnection").getString("serverName"));
+        this.dbUser = obj.getJSONObject("databaseConnection").getString("dbUser");
+        this.dbPass = obj.getJSONObject("databaseConnection").getString("dbPassword");
+        this.dbUrl =  obj.getJSONObject("databaseConnection").getString("dbUrl");
 
         /* Set server connection parameters */
         this.serverPort = Integer.parseInt(obj.getJSONObject("serverConnection").getString("serverPort"));
@@ -40,7 +39,13 @@ public class KaminoServer {
     /* --------------------------------------------------------------- */
     public void newClientConnection(Socket socket){
         pushNotification("JOIN", "New client joined the server");
-        new ClientConnection(socket, this.dataSource).start();
+        Connection dbConnection = null;
+        try {
+            dbConnection = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        new ClientConnection(socket, dbConnection).start();
     }
 
     /* Push formatted notification to server console */

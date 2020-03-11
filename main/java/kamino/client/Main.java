@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         kaminoClient = new KaminoClient();
+        //kaminoClient.startMainGUI();
         kaminoClient.startGUI();
         //kaminoClient.connectClient();
 

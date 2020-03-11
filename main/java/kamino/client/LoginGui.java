@@ -12,7 +12,6 @@ public class LoginGui {
     public JPasswordField PassField;
 
     public JFrame loginFrame;
-
     Hash hash = new Hash();
 
     public LoginGui() {

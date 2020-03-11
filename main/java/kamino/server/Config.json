@@ -3,7 +3,7 @@
   {
     "dbUser" : "",
     "dbPassword" : "",
-    "serverName" : "(localdb)\\MSSQLLOCALDB"
+    "dbUrl" : "jdbc:mysql://localhost:3306/kamino_schema"
   },
 
   "serverConnection":
