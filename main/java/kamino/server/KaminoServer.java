@@ -1,4 +1,4 @@
-package main.java.kamino.library;
+package main.java.kamino.server;
 
 import org.json.JSONObject;
 

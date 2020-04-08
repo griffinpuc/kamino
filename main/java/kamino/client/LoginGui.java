@@ -1,9 +1,8 @@
 package main.java.kamino.client;
 
-import main.java.kamino.library.Hash;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class LoginGui {
     public JButton SubmitLogin;
@@ -12,7 +11,6 @@ public class LoginGui {
     public JPasswordField PassField;
 
     public JFrame loginFrame;
-    Hash hash = new Hash();
 
     public LoginGui() {
 

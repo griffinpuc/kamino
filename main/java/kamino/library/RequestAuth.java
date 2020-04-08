@@ -19,4 +19,8 @@ public class RequestAuth implements Serializable {
         this.authenticated = true;
     }
 
+    public boolean isAuth(){
+        return this.authenticated;
+    }
+
 }

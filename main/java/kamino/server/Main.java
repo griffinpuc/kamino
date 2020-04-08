@@ -1,7 +1,5 @@
 package main.java.kamino.server;
 
-import main.java.kamino.library.KaminoServer;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,7 +16,7 @@ public class Main {
         System.out.println("Kamino server started");
         System.out.println("On port: "+ kaminoServer.serverPort);
 
-        //while (true) {
+        while (true) {
             try {
                 socket = serverSocket.accept();
             } catch (IOException e) {
@@ -26,7 +24,7 @@ public class Main {
             }
             /* New client thread for every new connection */
             kaminoServer.newClientConnection(socket);
-        //}
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-package main.java.kamino.library;
+package main.java.kamino.server;
 
 import java.sql.*;
 
@@ -12,20 +12,19 @@ public class DatabaseConnection {
 
     /* Add a new user account to the database */
     /* -------------------------------------- */
-    public void addUser(String userName, String userEmail, String userPass){
+    public void addUser(String userName, String userPass){
 
         String sql =
                 "INSERT INTO kamino_schema.users " +
-                "(username, email, password)" +
-                "VALUES (?, ?, ?)";
+                "(username, password)" +
+                "VALUES (?, ?)";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             PreparedStatement stmt = dbConnection.prepareStatement(sql);
 
             stmt.setString(1, userName);
-            stmt.setString(2, userEmail);
-            stmt.setString(3, userPass);
+            stmt.setString(2, userPass);
 
             stmt.executeUpdate();
         } catch (ClassNotFoundException | SQLException e) {
@@ -36,12 +35,12 @@ public class DatabaseConnection {
 
     /* Authenticate a set of credentials against the database */
     /* ------------------------------------------------------ */
-    public int authUser(String userName, String userPass){
+    public Integer authUser(String userName, String userPass){
 
         String sql =
                 "SELECT userID, username, password " +
                 "FROM kamino_schema.users " +
-                "WHERE username = ? AND password = ?; ";
+                "WHERE username = ? AND password = ?";
 
         try {
 
@@ -50,10 +49,7 @@ public class DatabaseConnection {
 
             stmt.setString(1, userName);
             stmt.setString(2, userPass);
-
-            System.out.println(stmt);
-
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery();
 
             while(rs.next()){
                 return rs.getInt("userID");
@@ -62,7 +58,7 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
 
-        return 1;
+        return null;
 
     }
 

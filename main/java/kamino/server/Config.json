@@ -1,8 +1,8 @@
 {
   "databaseConnection":
   {
-    "dbUser" : "",
-    "dbPassword" : "",
+    "dbUser" : "kaminodev",
+    "dbPassword" : "Kamino2020",
     "dbUrl" : "jdbc:mysql://localhost:3306/kamino_schema"
   },
 

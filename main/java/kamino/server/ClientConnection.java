@@ -1,6 +1,8 @@
-package main.java.kamino.library;
+package main.java.kamino.server;
 
-import javax.sql.*;
+import main.java.kamino.library.Hash;
+import main.java.kamino.library.RequestAuth;
+
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
@@ -11,6 +13,7 @@ public class ClientConnection extends Thread {
     protected Socket socket;
     private int userId;
     private DatabaseConnection connectionContext;
+    private Hash hash;
 
     public ClientConnection(Socket socket, Connection dbConnection) {
         try{
@@ -19,11 +22,8 @@ public class ClientConnection extends Thread {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Hash h = new Hash();
-        String x = h.hashString("admin");
-        String g = h.hashString("email@mail.com");
-        String y = h.hashString("password");
-        //connectionContext.addUser(x, g, y);
+
+        connectionContext.addUser(hash.hashString("griffin"), hash.hashString("griffin"));
 
         while(true){
             DataInputStream dIn = null;
@@ -42,11 +42,20 @@ public class ClientConnection extends Thread {
                 e.printStackTrace();
             }
         }
-
     }
 
     public void authenticateClient(RequestAuth authRequest) {
-        System.out.println(connectionContext.authUser(authRequest.usernameHash, authRequest.usernameHash));
+        Integer returned = connectionContext.authUser(authRequest.usernameHash, authRequest.passwordHash);
+        if(returned != null){ authRequest.authenticate(); }
+
+        try {
+            DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+            ObjectOutputStream oStream = new ObjectOutputStream(dOut);
+            oStream.writeObject(authRequest);
+            oStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

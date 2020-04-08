@@ -1,8 +1,10 @@
-package main.java.kamino.library;
+package main.java.kamino.client;
 
 
 import main.java.kamino.client.LoginGui;
 import main.java.kamino.client.MainGui;
+import main.java.kamino.library.Hash;
+import main.java.kamino.library.RequestAuth;
 import org.json.JSONObject;
 
 import javax.swing.*;
@@ -42,7 +44,8 @@ public class KaminoClient {
 
     /* Authenticate the client with the server */
     /* --------------------------------------- */
-    public void connectClient(String username, String password) {
+    public boolean connectClient(String username, String password) {
+        boolean retval = false;
         try {
             serverConnection = new Socket(this.serverAddress, this.serverPort);
             DataOutputStream dOut = new DataOutputStream(serverConnection.getOutputStream());
@@ -53,34 +56,39 @@ public class KaminoClient {
 
             DataInputStream dIn = new DataInputStream(serverConnection.getInputStream());
             ObjectInputStream iStream = new ObjectInputStream(dIn);
+            Object nextObj = iStream.readObject();
 
-            System.out.println(iStream.readObject());
-            System.out.println("got here");
+            if(nextObj instanceof RequestAuth){
+                if(((RequestAuth) nextObj).isAuth()){
+                    retval = true;
+                }
+            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        return retval;
     }
 
     /* Start the login gui and begin authentication process */
     /* ---------------------------------------------------- */
     public void startGUI(){
-        LoginGui loginGui = new LoginGui();
-        Hash hash = new Hash();
+            LoginGui loginGui = new LoginGui();
+            Hash hash = new Hash();
 
-        loginGui.SubmitLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if("".equals(loginGui.UnameField.getText()) || "".equals(loginGui.PassField.getPassword()) ){
-                    JOptionPane.showMessageDialog(null, "Username or password field is incorrect.");
-                }
-                else{
+            loginGui.SubmitLogin.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
                     usernameHash = hash.hashString(loginGui.UnameField.getText());
-                    passwordHash = hash.hashString(loginGui.PassField.getPassword().toString());
-                    connectClient(usernameHash, passwordHash);
+                    passwordHash = hash.hashString(String.valueOf(loginGui.PassField.getPassword()));
+                    if(!connectClient(usernameHash, passwordHash)){
+                        JOptionPane.showMessageDialog(null, "Incorrect credentials");
+                        loginGui.loginFrame.setVisible(false);
+                    }
                 }
-            }
-        });
+            });
+
     }
 
     public void startMainGUI(){
