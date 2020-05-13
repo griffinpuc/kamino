@@ -8,7 +8,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        /* Start the server */
         KaminoServer kaminoServer = new KaminoServer();
+        /* Load config */
         kaminoServer.loadConfig();
         ServerSocket serverSocket = new ServerSocket(kaminoServer.serverPort);
         Socket socket = null;

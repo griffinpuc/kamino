@@ -1,17 +1,36 @@
 package main.java.kamino.library;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Note {
+/* Note object */
+/* ----------------------------------------------------- */
+public class Note implements Serializable {
 
-    private String noteId;            /* Unique note ID */
-    private String userId;            /* Corresponding user ID */
-    private String noteTitle;         /* Title of the note */
-    private String noteDesc;          /* Description of the note */
+    public String noteId;            /* Unique note ID */
+    public String userId;            /* Corresponding user ID */
+    public String noteTitle;         /* Title of the note */
+    public String noteDesc;          /* Description of the note */
 
-    private Date noteCreation;        /* Date the note was created */
-    private Date noteAccessed;        /* Date the note was last accessed */
+    public Date noteCreation;        /* Date the note was created */
+    public Date noteAccessed;        /* Date the note was last accessed */
 
-    private String noteUrl;           /* Local server URL to the note */
+    public String noteUrl;           /* Local server URL to the note */
+
+    public String noteContents;
+
+    public Note(String userId, String noteTitle, String noteContents){
+        this.userId = userId;
+        this.noteTitle = noteTitle;
+        this.noteContents = noteContents;
+    }
+
+    public Note(String userId, String noteId, String noteTitle, String noteUrl, String noteContents){
+        this.userId = userId;
+        this.noteId = noteId;
+        this.noteUrl = noteUrl;
+        this.noteTitle = noteTitle;
+        this.noteContents = noteContents;
+    }
 
 }

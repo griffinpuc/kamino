@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/* Hash class for hashing credentials */
+/* ----------------------------------------------------- */
 public class Hash {
 
     public String hashString(String input){
