@@ -1,13 +1,18 @@
 {
   "databaseConnection":
   {
-    "dbUser" : "kaminodev",
-    "dbPassword" : "Kamino2020",
-    "dbUrl" : "jdbc:mysql://localhost:3306/kamino_schema"
+    "dbUser" : "usernamehere",
+    "dbPassword" : "passwordhere",
+    "dbUrl" : "addresshere"
   },
 
   "serverConnection":
   {
-    "serverPort" : "5000"
+    "serverPort" : "port here ex: 5000"
+  },
+
+  "storage" :
+  {
+    "storageUrl" : "example: C:\\Users\\Test\\Workspace\\notes_storage"
   }
 }

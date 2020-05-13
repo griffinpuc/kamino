@@ -1,7 +1,7 @@
 {
   "connection":
   {
-    "serverAddress" : "127.0.0.1",
-    "serverPort" : "5000"
+    "serverAddress" : "ex: 127.0.0.1",
+    "serverPort" : "ex: 5000"
   }
 }
